@@ -1,0 +1,6 @@
+.vscode/
+report.html
+output.xml
+log.html
+debug.log
+selenium-screenshot*
