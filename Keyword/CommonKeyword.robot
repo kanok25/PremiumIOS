@@ -1,5 +1,4 @@
 *** Settings ***
-
 # Library    RequestsLibrary
 # Library    ExcelLibrary
 # Library    Collections
@@ -16,11 +15,13 @@ Open Browser Desktop Mode
     [Documentation]    Open browser chrome on Web (Chrome)
     [Arguments]    ${url}    ${browser}=chrome
     ${chrome options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
-    ${list} =     Create List    --start-maximized    --disable-notifications
-    ${args} =     Create Dictionary    args=${list}
-    ${desired caps} =     Create Dictionary    chromeOptions=${args}
-    Create Webdriver    Chrome    chrome_options=${chrome options}
-    Open Browser    ${url}    browser=${browser}    desired_capabilities=${desired caps}
+    # Call Method    ${chrome options}  add_argument  --disable-infobars
+    Call Method    ${chrome options}    add_argument    --disable-notifications
+    Call Method    ${chrome options}    add_argument    --start-maximized
+    ${options.prefs}=    Create Dictionary    credentials_enable_service    false
+    Call Method    ${chrome options}    add_experimental_option    prefs     ${options.prefs}
+    Create WebDriver    Chrome    chrome_options=${chrome options}
+    Go To    ${url}
 
 Click Button Name
     [Documentation]    For click button
@@ -40,11 +41,11 @@ Click Element Name
     Wait Until Element Is Visible   ${element_name}    ${timeout}
     Click Element    ${element_name}
 
-Replace String Text Is Visible
-    [Documentation]    For replace word to element
-    [Arguments]    ${ElementPath}
-    ${element_value}    Replace String    ${ElementPath}    v_variable    ${variable_text}
-    Wait Until Element Is Visible    ${element_value}    ${timeout}
+# Replace String Text Is Visible
+#     [Documentation]    For replace word to element
+#     [Arguments]    ${ElementPath}
+#     ${element_value}    Replace String    ${ElementPath}    v_variable    ${variable_text}
+#     Wait Until Element Is Visible    ${element_value}    ${timeout}
 
 Replace String Text Is Page Contains
     [Documentation]    For replace word to element
@@ -52,9 +53,22 @@ Replace String Text Is Page Contains
     ${element_value}    Replace String    ${ElementPath}    v_variable    ${variable_text}
     Wait Until Page Contains Element    ${element_value}    ${timeout}
 
-Replace String Regexp With Space
-    [Documentation]    For replace string and delete space bar
-    [Arguments]    ${ElementPath}
-    ${element_value}    Replace String Using Regexp    ${ElementPath}    ${SPACE}    ${Empty}
-    # [Return]    ${element_value}
-    Wait Until Page Contains Element    ${element_value}    ${timeout}
+# Replace String Regexp With Space
+#     [Documentation]    For replace string and delete space bar
+#     [Arguments]    ${ElementPath}
+#     ${element_value}    Replace String Using Regexp    ${ElementPath}    ${SPACE}    ${Empty}
+#     # [Return]    ${element_value}
+#     Wait Until Page Contains Element    ${element_value}    ${timeout}
+
+Click Element For Dropdown List
+    [Documentation]    Focus to element for dropdown list
+    [Arguments]    ${element_for_dropdownlist}
+    Wait Until Element Is Visible    ${element_for_dropdownlist}    ${timeout}
+    Mouse Over    ${element_for_dropdownlist}
+    Click Element    ${element_for_dropdownlist}
+
+Select Value For Dropdown List
+    [Documentation]    Focus to element for DropDown List
+    [Arguments]    ${select_value_dropdownlist}
+    Mouse Over    ${select_value_dropdownlist}
+    Click Element    ${select_value_dropdownlist}
