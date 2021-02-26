@@ -72,3 +72,21 @@ Select Value For Dropdown List
     [Arguments]    ${select_value_dropdownlist}
     Mouse Over    ${select_value_dropdownlist}
     Click Element    ${select_value_dropdownlist}
+
+Read all Excel By Columns Name
+    [Arguments]    ${EXCELPATH}    ${SHEETNAME}
+    ${dicAllTestData}    Create Dictionary
+    Open Excel Document    filename=${EXCELPATH}    doc_id=doc1
+    ${AllColumn}    Read Excel Row    row_num=1    sheet_name=${SHEETNAME}
+    Log List    ${AllColumn}
+    ${CountAllColumn}    Get Length    ${AllColumn}
+    FOR    ${INDEX}    IN RANGE    0    ${CountAllColumn}
+        ${ColumnIndex}    Evaluate    ${Index}+1
+        ${AllRow}    Read Excel Column    col_num=${ColumnIndex}    sheet_name=${SHEETNAME}
+        Collections.Remove From List    ${AllRow}    0    #ลบ Row แรก
+        # Collections.Remove From List    ${AllRow}    0    #ลบ Row สอง
+        log    ${AllColumn[${INDEX}]}
+        Set To Dictionary    ${dicAllTestData}    ${AllColumn[${INDEX}]}=${AllRow}
+    END
+    [Teardown]    Close All Excel Documents
+    [Return]    ${dicAllTestData} 

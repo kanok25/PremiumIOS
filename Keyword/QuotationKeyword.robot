@@ -57,22 +57,140 @@ Replace String Text And Select Value In Dropdown List
     Click Element    ${ddl_element}
     # Select All From List    ${ddl_element}    ${element_value}
 
-Replace String Text
+Replace String Text For Click
     [Documentation]    Replace string for element
     [Arguments]    ${path_element}    ${DataValue}
     ${element_name}    Replace String    ${path_element}    v_value    ${DataValue}
     Wait Until Element Is Visible    ${element_name}    20s
     Click Element    ${element_name}
 
-Get Value In Quotation
-    [Documentation]    Get value in quotation
-    [Arguments]    ${DataCompanyName}    ${DataColumnName}    ${text_results}    
+Get Value In Quotation A
+    [Documentation]    Get value in quotation ชีวิตบุคคลภายนอกต่อคน 
+    [Arguments]    ${DataCompanyName}
     ${element_company}    Replace String    ${label_title}    v_value    ${DataCompanyName}
-    Log    ${element_name}
-    ${element_title}    Replace String    ${element_name}    v_title    ${DataColumnName}
+    Log    ${element_company}
+    ${element_title}    Replace String    ${element_company}    v_title    ชีวิตบุคคลภายนอกต่อคน
     Wait Until Element Is Visible    ${element_title}    20s
-    ${text_results}    Get Text    ${element_title}
-    # //table[@id="${dicAllTestData["ชื่อบริษัท"]}[${index}]"]//td[@title="ชีวิตบุคคลภายนอกต่อคน"]
+    ${ResultA}    Get Text    ${element_title}
+    Set Global Variable    ${ResultA}
+
+Get Value In Quotation B
+    [Documentation]    Get value in quotation ชีวิตบุคคลภายนอกต่อครั้ง 
+    [Arguments]    ${DataCompanyName}
+    ${element_company}    Replace String    ${label_title}    v_value    ${DataCompanyName}
+    Log    ${element_company}
+    ${element_title}    Replace String    ${element_company}    v_title    ชีวิตบุคคลภายนอกต่อครั้ง
+    Wait Until Element Is Visible    ${element_title}    20s
+    ${ResultB}    Get Text    ${element_title}
+    Set Global Variable    ${ResultB}
+
+Get Value In Quotation C
+    [Documentation]    Get value in quotation ชีวิตบุคคลภายนอกต่อครั้ง 
+    [Arguments]    ${DataCompanyName}
+    ${element_company}    Replace String    ${label_title}    v_value    ${DataCompanyName}
+    Log    ${element_company}
+    ${element_title}    Replace String    ${element_company}    v_title    ทรัพย์สินบุคคลภายนอก
+    Wait Until Element Is Visible    ${element_title}    20s
+    ${ResultC}    Get Text    ${element_title}
+    Set Global Variable    ${ResultC}
+
+Get Value In Quotation D
+    [Documentation]    Get value in quotation ค่าเสียหายส่วนแรก(ภายนอก) 
+    [Arguments]    ${DataCompanyName}
+    ${element_company}    Replace String    ${label_title}    v_value    ${DataCompanyName}
+    Log    ${element_company}
+    ${element_title}    Replace String    ${element_company}    v_title    ค่าเสียหายส่วนแรก(ภายนอก)
+    Wait Until Element Is Visible    ${element_title}    20s
+    ${ResultD}    Get Text    ${element_title}
+    Set Global Variable    ${ResultD}
+
+Get Value In Quotation E
+    [Documentation]    Get value in quotation รถยนต์เสียหาย
+    [Arguments]    ${DataCompanyName}
+    ${element_company}    Replace String    ${label_title}    v_value    ${DataCompanyName}
+    Log    ${element_company}
+    ${element_title}    Replace String    ${element_company}    v_title    รถยนต์เสียหาย
+    Wait Until Element Is Visible    ${element_title}    20s
+    ${ResultE}    Get Text    ${element_title}
+    Set Global Variable    ${ResultE}
+
+Get Value In Quotation F
+    [Documentation]    Get value in quotation ค่าเสียหายส่วนแรก 
+    [Arguments]    ${DataCompanyName}
+    ${element_company}    Replace String    ${label_title}    v_value    ${DataCompanyName}
+    Log    ${element_company}
+    ${element_title}    Replace String    ${element_company}    v_title    ค่าเสียหายส่วนแรก
+    Wait Until Element Is Visible    ${element_title}    20s
+    ${ResultF}    Get Text    ${element_title}
+    Set Global Variable    ${ResultF}
+
+Get Value In Quotation G
+    [Documentation]    Get value in quotation รถยนต์เสียหาย / ไฟไหม้ 
+    [Arguments]    ${DataCompanyName}
+    ${element_company}    Replace String    ${label_title}    v_value    ${DataCompanyName}
+    Log    ${element_company}
+    ${element_title}    Replace String    ${element_company}    v_title    รถยนต์เสียหาย / ไฟไหม้
+    Wait Until Element Is Visible    ${element_title}    20s
+    ${ResultG}    Get Text    ${element_title}
+    Set Global Variable    ${ResultG}
+
+Get Value In Quotation H
+    [Documentation]    Get value in quotation อุบัติเหตุส่วนบุคคล 
+    [Arguments]    ${DataCompanyName}
+    ${element_company}    Replace String    ${label_title}    v_value    ${DataCompanyName}
+    Log    ${element_company}
+    ${element_title}    Replace String    ${element_company}    v_title    อุบัติเหตุส่วนบุคคล
+    Wait Until Element Is Visible    ${element_title}    20s
+    ${ResultH}    Get Text    ${element_title}
+    Set Global Variable    ${ResultH}
+
+Get Value In Quotation I
+    [Documentation]    Get value in quotation ค่ารักษาพยาบาล 
+    [Arguments]    ${DataCompanyName}
+    ${element_company}    Replace String    ${label_title}    v_value    ${DataCompanyName}
+    Log    ${element_company}
+    ${element_title}    Replace String    ${element_company}    v_title    ค่ารักษาพยาบาล
+    Wait Until Element Is Visible    ${element_title}    20s
+    ${ResultI}    Get Text    ${element_title}
+    Set Global Variable    ${ResultI}
+
+Get Value In Quotation J
+    [Documentation]    Get value in quotation ประกันตัวผู้ขับขี่ 
+    [Arguments]    ${DataCompanyName}
+    ${element_company}    Replace String    ${label_title}    v_value    ${DataCompanyName}
+    Log    ${element_company}
+    ${element_title}    Replace String    ${element_company}    v_title    ประกันตัวผู้ขับขี่
+    Wait Until Element Is Visible    ${element_title}    20s
+    ${ResultJ}    Get Text    ${element_title}
+    Set Global Variable    ${ResultJ}
+
+Get And Write All Data In Quotation
+    [Documentation]    Step for get data in quotation
+    [Arguments]    ${DataCompanyName}    ${INDEX}    #${dicAllTestData["ชื่อบริษัท"]}[${index}]
+    sleep    1s
+    Switch Window    MAIN
+    sleep    4s
+    Select Frame    ${iframe}
+    sleep    1s
+    Wait Until Element Is Visible    ${data_quotenumber}     10s
+    ${ResultQuotation}    Get text    ${data_quotenumber}
+    Set Global Variable    ${ResultQuotation}
+    sleep    2s
+    Replace String Text For Click    ${link_quotenumber}    ${ResultQuotation}
+    sleep    10s
+    Get Value In Quotation A     ${DataCompanyName}
+    Get Value In Quotation B     ${DataCompanyName}        
+    Get Value In Quotation C     ${DataCompanyName}
+    Get Value In Quotation D     ${DataCompanyName}
+    Get Value In Quotation E     ${DataCompanyName}
+    Get Value In Quotation F     ${DataCompanyName}  
+    Get Value In Quotation G     ${DataCompanyName}
+    Get Value In Quotation H     ${DataCompanyName}
+    Get Value In Quotation I     ${DataCompanyName}   
+    Get Value In Quotation J     ${DataCompanyName} 
+    Click Close Modal
+    Unselect Frame
+    Write Data In Excel    D:${/}Premium${/}PremiumData.xlsx    ${sheetdata}    ${INDEX}
 
 Select Data In Car Brand
     [Documentation]    Select data car barnd in Dropdown list 
@@ -172,7 +290,7 @@ Click Clear button
     Wait Until Element Is Visible    //button[@id="btn-reEdittab1"]    15s
     Click Element    //button[@id="btn-reEdittab1"]
 
-Select Insurance Type
+Select Insurance
     [Documentation]    After search data then system click tab Insurance type (ex. ประเภท1, ประเภท2)
     [Arguments]    ${DataInsuranceType}    ${DataCompanyName}
     # sleep    10s
@@ -234,69 +352,48 @@ Input Information Insurance
     Input Text    //input[@id="modal-input-fname"]    ${DataFirstName}
     # Input Text    //input[@id="modal-input-lname"]    ${DataLastName}
     Input Text    //input[@id="modal-input-phone"]    ${DataMobile}
+    sleep    1s
     Wait Until Element Is Visible    //button[@id="btn-print-normal"]    5s
     Click Element    //button[@id="btn-print-normal"]
     sleep    3s
     Handle Alert    ACCEPT    10s
+    # sleep 2
+    # Switch Window    MAIN
+    # sleep    3s
+    # Select Frame    ${iframe}
+    # sleep    1s
+    # sleep    2s
 
 Verify Thai ID And Mobile Number
     [Documentation]    Verify ID and Mobile number then system validate is duplicate
     [Arguments]    ${ROWCOUNT}
+    sleep    2s
     ${resultmessage}    Run Keyword And Return Status    Verify Error Message For ThaiID And Mobile Number
     Run Keyword If    '${resultmessage}' == 'True'    Write Message Error    ${ROWCOUNT}    ThaiID or Mobile Number is duplicate
+    Unselect Frame
     [Return]     ${resultmessage}
-
-Verify Message
-    [Arguments]
-    Handle Alert    ACCEPT    10s
 
 Verify Error Message For ThaiID And Mobile Number
     [Documentation]    Click element for message error
-    Wait Until Element Is Visible    //div[@class="modal-dialog"]//h4[contains(text(),'ข้อมูลผู้เอาประกัน')]    2s
-
+    sleep    0.5s
+    Wait Until Element Is Enabled    //div[@class="modal-dialog"]//h4[contains(text(),'ข้อมูลผู้เอาประกัน')]    2s
+    # //div[@class="modal-dialog"]//h4[contains(text(),'ข้อมูลผู้เอาประกัน')]    2s
+    # //button[@id="btn-cancal-normal"]
+    
 Write Message Error
     [Documentation]    Write Log Error
-    [Arguments]    ${ROWCOUNT}    ${VALUE}
-    Open Excel Document     D:${/}Premium${/}PremiumData.xlsx    Data
-    Write Excel By Columns Name    ผลลัพธ์    ${ROWCOUNT}    ${VALUE}
-    ExcelLibrary.Save Excel Document    filename=D:${/}Premium${/}PremiumData.xlsx
-    Close All Excel Documents
+    [Arguments]    ${INDEX}    ${VALUE}
     Click Cancel Create Quotation
-
-# Search And Select Agent Profile
-#     [Arguments]    ${DataAgentCode}      ${AllDataInsurance[42]}     
-#     [Documentation]    For Search username,surename,agentID on special quote page
-#     Input Data    ${txt_search_agent}    ${DataAgentCode}      
-#     Click Element On Page    ${btn_search_agent}
-#     ${agentid_locator}    Replace String    ${select_agentid}    v_agent_id    ${DataAgentCode}
-#     Wait Until Element Is Visible    ${agentid_locator}      15s
-#     Click Element On Page   ${agentid_locator}
-
-#     ${Openfile}   Replace String    ${CURDIR}   ${/}Keyword  ${/}Resource${/}uat${/}TestData${/}PrepareDate  
-#     ExcelLibrary.Open Excel Document     filename=${Openfile}${/}data_areegator_202102.xlsx      doc_id=New Requirement
-
-#     ${SearchAgentStatus}    Run Keyword And Return Status    Verify Error Message For Search
-
-#     Run Keyword If    '${SearchAgentStatus}' == 'True'   Write Excel Cell	row_num=${AllDataInsurance[42]}     col_num=41     value=Agent License Expired     sheet_name=New Requirement       
-#     Save Excel Document  	   filename=${Openfile}${/}data_areegator_202102.xlsx
-#     Close Current Excel Document
-
-#     [Return]    ${SearchAgentStatus}
- 
-#  --------
-
-
-#     log     ${DataCarType}
-#     ${status}    Run Keyword And Return Status    Should Contain Any    ${DataCarType}    @{names}
-#     Run Keyword If    '${status}' == 'True'    Select Value on Car Year Thai    ${DataCarYear}  
-#     Run Keyword If    '${status}' == 'False'    Select Value on Car Year Eng    ${DataCarYear}  
-    # ${message} =	    SeleniumLibrary.Handle Alert    ACCEPT    10s
-
-    # โทรศัพท์หมายเลข : 0873844085 มีมากกว่า 1 ในระบบ   กรุณาสร้างการขายผ่านหน้า Lead
+    Open Excel Document     D:${/}Premium${/}PremiumData.xlsx    Data
+    ${indexWriteExcel}    Evaluate    ${INDEX}+1
+    Write Excel By Columns Name    ผลลัพธ์    ${indexWriteExcel}    ${VALUE}
+    ExcelLibrary.Save Excel Document    filename=D:${/}Premium${/}PremiumData.xlsx
+    [Teardown]    Close All Excel Documents
 
 Click Cancel Create Quotation
     [Documentation]    Click "ยกเลิก" ใน Popup ข้อมูลผู้เอาประกัน
-    Wait Until Element Is Visible    //button[@id="btn-cancal-normal"]    5s
+    sleep    2s
+    Wait Until Element Is Visible    //button[@id="btn-cancal-normal"]    10s
     Click Element    //button[@id="btn-cancal-normal"]
 
 Go To Tracking Page
@@ -311,45 +408,6 @@ Go To Tracking Page
     # Mouse Over    //a[@id="m_205"]
     Click Element    //a[@id="m_205"]
     sleep    5s
-
-Quotation Details
-    [Documentation]    Get data to quotation Detail
-    [Arguments]    ${DataCompany}
-    Get Quotation Details    ${DataCompany}
-    # Get Quotation Detail
-        
-Get Quotation Details
-    [Documentation]    Verify Create Quotation
-    [Arguments]    ${DataCompany}
-    ${ResultQuotation}    Get text    //tr[@id="1"]//td/a[@data-toggle="modal"]
-    Log    ${ResultQuotation}
-    [Return]    ${ResultQuotation}
-    Click Link    //a[contains(text(),"${ResultQuotation}")]
-    Sleep    10s
-    # Get value in Quotation
-    ${ResultA}    Get text    //table[@id="${DataCompany}"]//td[@title="ชีวิตบุคคลภายนอกต่อคน"]
-    Log    ${ResultA}
-    ${ResultB}    Get text    //table[@id="${DataCompany}"]//td[@title="ชีวิตบุคคลภายนอกต่อครั้ง"]
-    Log    ${ResultB}   
-    ${ResultC}    Get text    //table[@id="${DataCompany}"]//td[@title="ทรัพย์สินบุคคลภายนอก"]
-    Log    ${ResultC}
-    ${ResultD}    Get text    //table[@id="${DataCompany}"]//td[@title="ค่าเสียหายส่วนแรก(ภายนอก)"]
-    Log    ${ResultD}
-    ${ResultE}    Get text    //table[@id="${DataCompany}"]//td[@title="รถยนต์เสียหาย"]
-    Log    ${ResultE}
-    ${ResultF}    Get text    //table[@id="${DataCompany}"]//td[@title="ค่าเสียหายส่วนแรก"]
-    Log    ${ResultF}
-    ${ResultG}    Get text    //table[@id="${DataCompany}"]//td[@title="รถยนต์เสียหาย / ไฟไหม้"]
-    Log    ${ResultG}
-    ${ResultH}    Get text    //table[@id="${DataCompany}"]//td[@title="อุบัติเหตุส่วนบุคคล"]
-    Log    ${ResultH}
-    ${ResultI}    Get text    //table[@id="${DataCompany}"]//td[@title="ค่ารักษาพยาบาล"]
-    Log    ${ResultI}
-    ${ResultJ}    Get text    //table[@id="${DataCompany}"]//td[@title="ประกันตัวผู้ขับขี่"]
-    Log    ${ResultJ}
-    Wait Until Element Is Visible    //button[@id="closemodal"]    10s
-    CLick Element    //button[@id="closemodal"]
-    # Log    ${ResultG}
 
 Write Excel By Columns Name
     [Arguments]    ${COLUMNNAME}    ${ROWCOUNT}    ${VALUE}
@@ -367,7 +425,28 @@ Write Excel By Columns Name
     # ExcelLibrary.Save Excel Document    filename=${EXCELPATH}
     # Close All Excel Documents
 
+Write Data In Excel
+    [Arguments]    ${EXCELPATH}    ${SHEETNAME}    ${INDEX}
+    Open Excel Document     ${EXCELPATH}    ${SHEETNAME}    #D:${/}Premium${/}PremiumData.xlsx    ${sheetdata}
+    ${indexWriteExcel}    Evaluate    ${INDEX}+1
+    Write Excel By Columns Name    ทุนประกัน    ${indexWriteExcel}    ${ResultTotal}
+    Write Excel By Columns Name    เบี้ยประกัน    ${indexWriteExcel}    ${ResultPremium}
+    Write Excel By Columns Name    Quotation    ${indexWriteExcel}    ${ResultQuotation}
+    Write Excel By Columns Name    ชีวิตบุคคลภายนอกต่อคน    ${indexWriteExcel}    ${ResultA}
+    Write Excel By Columns Name    ชีวิตบุคคลภายนอกต่อครั้ง    ${indexWriteExcel}    ${ResultB}
+    Write Excel By Columns Name    ทรัพย์สินบุคคลภายนอก    ${indexWriteExcel}    ${ResultC}
+    Write Excel By Columns Name    ค่าเสียหายส่วนแรก(ภายนอก)    ${indexWriteExcel}    ${ResultD}        
+    Write Excel By Columns Name    ค่าเสียหายส่วนแรก    ${indexWriteExcel}    ${ResultE}
+    Write Excel By Columns Name    ค่าเสียหายส่วนแรก    ${indexWriteExcel}    ${ResultF}
+    Write Excel By Columns Name    รถยนต์เสียหาย / ไฟไหม้    ${indexWriteExcel}    ${ResultG}
+    Write Excel By Columns Name    อุบัติเหตุส่วนบุคคล    ${indexWriteExcel}    ${ResultH}
+    Write Excel By Columns Name    ค่ารักษาพยาบาล    ${indexWriteExcel}    ${ResultI}
+    Write Excel By Columns Name    ประกันตัวผู้ขับขี่    ${indexWriteExcel}    ${ResultJ}
+    Write Excel By Columns Name    ผลลัพธ์    ${indexWriteExcel}    Pass
+    ExcelLibrary.Save Excel Document    filename=${EXCELPATH}
+    [Teardown]    Close All Excel Documents
+
 Click Close Modal
-    [Documentation]    
+    [Documentation]    CLick close button in modal quotetaion detail 
     Wait Until Element Is Visible    ${btn_quote_close_modal}    10s
     CLick Element    ${btn_quote_close_modal}

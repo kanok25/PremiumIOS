@@ -13,9 +13,8 @@ Suite Setup       Go To URL And Quotation Menu
 # # Go To URL And Quotation Menu
 # Test setup          Select Frame    ${iframe}
 # Test Teardown       Unselect Frame
-# Suite Teardown      Close All Browsers
+Suite Teardown      Close All Browsers
 ***Variables***
-
 
 *** test case ***
 Test_Excel_All_Rows
@@ -39,44 +38,14 @@ Test_Excel_All_Rows
     ${countRows}    Get Length    ${dicAllTestData["เบอร์โทร"]} 
     ${countRows}    Get Length    ${dicAllTestData["บัตรประชาชน"]}
     # Open Excel Document	    filename=D:${/}Premium${/}PremiumData.xlsx     doc_id=doc1
-    Input All Cars Details    ${dicAllTestData}    ${countRows}
-    # ExcelLibrary.Save Excel Document    D:${/}Premium${/}PremiumData.xlsx
-    # Close All Excel Documents
-   
-***Keywords***
-    #${AllTestData}    ReadAllTestData   Y:${/}Areegator New Project${/}QA${/}PrepareDate${/}Renew.xlsx    New Requirement
-    # Open Excel Document    filename=D:${\}Premium${\}PremiumData.xlsx    Data
-Read all Excel By Columns Name
-    [Arguments]    ${EXCELPATH}    ${SHEETNAME}
-    ${dicAllTestData}    Create Dictionary
-    Open Excel Document    filename=${EXCELPATH}    doc_id=doc1
-    ${AllColumn}    Read Excel Row    row_num=1    sheet_name=${SHEETNAME}
-    Log List    ${AllColumn}
-    ${CountAllColumn}    Get Length    ${AllColumn}
-    FOR    ${INDEX}    IN RANGE    0    ${CountAllColumn}
-        ${ColumnIndex}    Evaluate    ${Index}+1
-        ${AllRow}    Read Excel Column    col_num=${ColumnIndex}    sheet_name=${SHEETNAME}
-        Collections.Remove From List    ${AllRow}    0    #ลบ Row แรก
-        # Collections.Remove From List    ${AllRow}    0    #ลบ Row สอง
-        log    ${AllColumn[${INDEX}]}
-        Set To Dictionary    ${dicAllTestData}    ${AllColumn[${INDEX}]}=${AllRow}
-    END
-    [Teardown]    Close All Excel Documents
-    [Return]    ${dicAllTestData} 
-
-Input All Cars Details
-    [Arguments]    ${ALLTESTDATA}    ${ROWLENGTH}
-    # ${dicAllTestData}    Create List
-    FOR    ${INDEX}    IN RANGE    0    ${ROWLENGTH}
+    # Input All Cars Details    ${dicAllTestData}    ${countRows}
+    FOR    ${INDEX}    IN RANGE    0    ${countRows}    #${ROWLENGTH}
         # Set To Dictionary    ${ALLTESTDATA}    ${AllColumn[${INDEX}]}=${AllRow}
-        # Create Premium Data    ${dicAllTestData}
         # log    ${ALLTESTDATA["ประเภทรถ"]}[${index}]
         sleep    6s
         Click Button Name    ${menu_quotation}
         sleep    12s
         Select Frame    ${iframe}
-        # Click Button Name    ${menu_quotation}
-        # sleep    15s
         Verify Quotation Page
         Select Radio Car Type    ${dicAllTestData["ประเภทรถ"]}[${index}]    #รถเก๋ง
         Select Data In Car Property    ${dicAllTestData["ประเภทการจดทะเบียน"]}[${index}]    #110 รถยนต์ส่วนบุคคล
@@ -91,100 +60,68 @@ Input All Cars Details
         Select Cliam Type    ${dicAllTestData["ประเภทการซ่อม"]}[${index}]    #ซ่อมอู่
         Click Search Button
         sleep    18s
-        Select Insurance Type    ${dicAllTestData["ประเภทประกัน"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    #2+
-        # ${DataTotal}    Replace String    //span/input[@value="v_company" and @data-id="v_value"]//../../..//div[contains(text(),'ทุนประกัน')]//..//strong    v_value    ${dicAllTestData["ประเภทประกัน"]}[${index}]
-        # Log    ${DataTotal}
-        # ${ResultTotal}    Replace String    ${DataTotal}    v_company    ${dicAllTestData["ชื่อบริษัท"]}[${index}] 
-        # Log    ${ResultTotal}
-        # ${DataPremium}    Replace String        //span/input[@value="v_company" and @data-id="v_value"]//../../..//div[contains(text(),'เบี้ยประกัน')]//..//strong    v_value    ${dicAllTestData["ประเภทประกัน"]}[${index}]
-        # Log    ${DataPremium}
-        # ${ResultPremium}    Replace String    ${DataTotal}    v_company    ${dicAllTestData["ชื่อบริษัท"]}[${index}] 
-        # Log    ${ResultPremium}
-        # Set Variable    ${ResultTotal}    ${ResultPremium}
-        # [Return]    ${ResultTotal}    ${ResultPremium}
-        # Get Value In Company    ${dicAllTestData["ประเภทประกัน"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]
+        Select Insurance    ${dicAllTestData["ประเภทประกัน"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    #2+
         Click Print Quotation
         Input Information Insurance    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]
-        # Open Excel Document     ${filepath}    Data
-        ${indexWriteExcel}    Evaluate    ${index}+1
-# Check Message error
-        ${resultmessage}    Verify Thai ID And Mobile Number    ${indexWriteExcel}
-        Return From Keyword If    '${resultmessage}' == 'True'
-        # Insert Data Special Quote For Renew    ${AllDataInsurance}
-        # Click Element    //button[@id="btn-print-normal"]
-        # SeleniumLibrary.Handle Alert    10s
-        # Close Browser
-        Unselect Frame
-
-        Switch Window    MAIN
-        sleep    4s
-        Select Frame    ${iframe}
-        sleep    1s
-        Wait Until Element Is Visible    ${data_quotenumber}     10s
-        ${ResultQuotation}    Get text    ${data_quotenumber}
-        # Log    ${ResultQuotation}
-        # [Return]    ${ResultQuotation}
-        # Create And Update Status Last Column    D:${/}PremiumData.xlsx    Data    Quotation Number    ${ResultQuotation}    1
-        # Get CLick in Quotation
-        # //a[contains(text(),"QT210250554")]
-        sleep    2s
-        Replace String Text    ${link_quotenumber}    ${ResultQuotation}
-        # Click Link    //a[contains(text(),"${ResultQuotation}")]
-        # CLick Element    ${data_quotenumber}
-        Sleep    10s
-        # Get value in Quotation
-        Get Value In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ชีวิตบุคคลภายนอกต่อคน    ${ResultA}
-        Get Value In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ชีวิตบุคคลภายนอกต่อครั้ง    ${ResultB}
-        Get Value In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ทรัพย์สินบุคคลภายนอก    ${ResultC}
-        Get Value In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ค่าเสียหายส่วนแรก(ภายนอก)    ${ResultD}
-        Get Value In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    รถยนต์เสียหาย    ${ResultE}
-        Get Value In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ค่าเสียหายส่วนแรก    ${ResultF}   
-        Get Value In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    รถยนต์เสียหาย / ไฟไหม้    ${ResultG}
-        Get Value In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    อุบัติเหตุส่วนบุคคล    ${ResultH}
-        Get Value In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ค่ารักษาพยาบาล    ${ResultI}    
-        Get Value In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ประกันตัวผู้ขับขี่    ${ResultJ}  
-        # ${ResultA}    Get text    //table[@id="${dicAllTestData["ชื่อบริษัท"]}[${index}]"]//td[@title="ชีวิตบุคคลภายนอกต่อคน"]
-        # Log    ${ResultA}
-        # ${ResultB}    Get text    //table[@id="${dicAllTestData["ชื่อบริษัท"]}[${index}]"]//td[@title="ชีวิตบุคคลภายนอกต่อครั้ง"]
-        # Log    ${ResultB}   
-        # ${ResultC}    Get text    //table[@id="${dicAllTestData["ชื่อบริษัท"]}[${index}]"]//td[@title="ทรัพย์สินบุคคลภายนอก"]
-        # Log    ${ResultC}
-        # ${ResultD}    Get text    //table[@id="${dicAllTestData["ชื่อบริษัท"]}[${index}]"]//td[@title="ค่าเสียหายส่วนแรก(ภายนอก)"]
-        # Log    ${ResultD}
-        # ${ResultE}    Get text    //table[@id="${dicAllTestData["ชื่อบริษัท"]}[${index}]"]//td[@title="รถยนต์เสียหาย"]
-        # Log    ${ResultE}
-        # ${ResultF}    Get text    //table[@id="${dicAllTestData["ชื่อบริษัท"]}[${index}]"]//td[@title="ค่าเสียหายส่วนแรก"]
-        # Log    ${ResultF}
-        # ${ResultG}    Get text    //table[@id="${dicAllTestData["ชื่อบริษัท"]}[${index}]"]//td[@title="รถยนต์เสียหาย / ไฟไหม้"]
-        # Log    ${ResultG}
-        # ${ResultH}    Get text    //table[@id="${dicAllTestData["ชื่อบริษัท"]}[${index}]"]//td[@title="อุบัติเหตุส่วนบุคคล"]
-        # Log    ${ResultH}
-        # ${ResultI}    Get text    //table[@id="${dicAllTestData["ชื่อบริษัท"]}[${index}]"]//td[@title="ค่ารักษาพยาบาล"]
-        # Log    ${ResultI}
-        # ${ResultJ}    Get text    //table[@id="${dicAllTestData["ชื่อบริษัท"]}[${index}]"]//td[@title="ประกันตัวผู้ขับขี่"]
-        # Log    ${ResultJ}
-        Wait Until Element Is Visible    ${btn_quote_close_modal}    10s
-        CLick Element    ${btn_quote_close_modal}
-        Unselect Frame
-        Open Excel Document     D:${/}Premium${/}PremiumData.xlsx    ${sheetdata}
-        ${indexWriteExcel}    Evaluate    ${index}+1
-        Write Excel By Columns Name    ทุนประกัน    ${indexWriteExcel}    ${ResultTotal}
-        Write Excel By Columns Name    เบี้ยประกัน    ${indexWriteExcel}    ${ResultPremium}
-        Write Excel By Columns Name    ชีวิตบุคคลภายนอกต่อคน    ${indexWriteExcel}    ${ResultA}
-        Write Excel By Columns Name    ชีวิตบุคคลภายนอกต่อครั้ง    ${indexWriteExcel}    ${ResultB}
-        Write Excel By Columns Name    ทรัพย์สินบุคคลภายนอก    ${indexWriteExcel}    ${ResultC}
-        Write Excel By Columns Name    ค่าเสียหายส่วนแรก(ภายนอก)    ${indexWriteExcel}    ${ResultD}        
-        Write Excel By Columns Name    ค่าเสียหายส่วนแรก    ${indexWriteExcel}    ${ResultE}
-        Write Excel By Columns Name    ค่าเสียหายส่วนแรก    ${indexWriteExcel}    ${ResultF}
-        Write Excel By Columns Name    รถยนต์เสียหาย / ไฟไหม้    ${indexWriteExcel}    ${ResultG}
-        Write Excel By Columns Name    อุบัติเหตุส่วนบุคคล    ${indexWriteExcel}    ${ResultH}
-        Write Excel By Columns Name    ค่ารักษาพยาบาล    ${indexWriteExcel}    ${ResultI}
-        Write Excel By Columns Name    ประกันตัวผู้ขับขี่    ${indexWriteExcel}    ${ResultJ}
-        Write Excel By Columns Name    ผลลัพธ์    ${indexWriteExcel}    Pass
-        ExcelLibrary.Save Excel Document    filename=D:${\}Premium${\}PremiumData.xlsx
-        Close All Excel Documents
-    
+        Verify Data For Quotation    ${index}    ${dicAllTestData["ชื่อบริษัท"]}[${index}]
+        # ${indexWriteExcel}    Evaluate    ${index}+1               # Check Message error
+        # ${resultmessage}    Verify Thai ID And Mobile Number    ${indexWriteExcel}
+        # Return From Keyword If    '${resultmessage}' == 'True'
+        # # Unselect Frame
+        # Get And Write All Data In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${index}
     END
+
+TestCase1
+    FOR    ${ListTestData}    IN     @{AllTestData}
+        Insurance Detail    ${ListTestData}
+    END
+   
+***Keywords***
+    #${AllTestData}    ReadAllTestData   Y:${/}Areegator New Project${/}QA${/}PrepareDate${/}Renew.xlsx    New Requirement
+    # Open Excel Document    filename=D:${\}Premium${\}PremiumData.xlsx    Data
+Input All Cars Details
+    [Arguments]    ${ALLTESTDATA}    ${ROWLENGTH}
+    FOR    ${INDEX}    IN RANGE    0    ${ROWLENGTH}
+        # Set To Dictionary    ${ALLTESTDATA}    ${AllColumn[${INDEX}]}=${AllRow}
+        # log    ${ALLTESTDATA["ประเภทรถ"]}[${index}]
+        sleep    6s
+        Click Button Name    ${menu_quotation}
+        sleep    12s
+        Select Frame    ${iframe}
+        Verify Quotation Page
+        Select Radio Car Type    ${dicAllTestData["ประเภทรถ"]}[${index}]    #รถเก๋ง
+        Select Data In Car Property    ${dicAllTestData["ประเภทการจดทะเบียน"]}[${index}]    #110 รถยนต์ส่วนบุคคล
+        Select Data In Car Brand    ${dicAllTestData["ยี่ห้อ"]}[${index}]    #HONDA (ยี่ห้อ)
+        Select Data In Car Model    ${dicAllTestData["รุ่น"]}[${index}]    #CITY (รุ่น)
+        Select Data In Car Year     ${dicAllTestData["ปีรุ่นรถ"]}[${index}]   #2018  ปีรุ่นรถ
+        Select Data In Car Sub Model    ${dicAllTestData["รุ่นย่อย"]}[${index}]    #MY17 Sedan 4dr S i-VTEC CVT FWD 1.5i (2018)
+        Input Value In Car Prefix    ${dicAllTestData["อักษรทะเบียน"]}[${index}]    #1กก
+        Input Value In Car License No    ${dicAllTestData["เลขทะเบียน"]}[${index}]    #4311
+        Select Data In Province    ${dicAllTestData["จังหวัด"]}[${index}]    #กรุงเทพมหานคร
+        Input Data In Year Of Birth    ${dicAllTestData["ปีเกิดผู้เอาประกัน"]}[${index}]    #2529
+        Select Cliam Type    ${dicAllTestData["ประเภทการซ่อม"]}[${index}]    #ซ่อมอู่
+        Click Search Button
+        sleep    18s
+        Select Insurance    ${dicAllTestData["ประเภทประกัน"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    #2+
+        Click Print Quotation
+        Input Information Insurance    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]
+        Verify Data For Quotation    ${index}    ${dicAllTestData["ชื่อบริษัท"]}[${index}]
+        # ${indexWriteExcel}    Evaluate    ${index}+1               # Check Message error
+        # ${resultmessage}    Verify Thai ID And Mobile Number    ${indexWriteExcel}
+        # Return From Keyword If    '${resultmessage}' == 'True'
+        # # Unselect Frame
+        # Get And Write All Data In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${index}
+    END
+
+
+Verify Data For Quotation
+    [Arguments]    ${index}    ${DataCompanyName}
+    ${indexWriteExcel}    Evaluate    ${index}+1               # Check Message error
+    ${resultmessage}    Verify Thai ID And Mobile Number    ${indexWriteExcel}
+    Return From Keyword If    '${resultmessage}' == 'True'
+    # Unselect Frame
+    Get And Write All Data In Quotation    ${DataCompanyName}    ${index}
+
 
 Go To URL And Quotation Menu
     ${dicAllTestData}    Read All Excel By Columns Name    D:${/}Premium${/}PremiumData.xlsx    ${sheetdata}
