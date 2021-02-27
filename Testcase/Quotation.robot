@@ -37,58 +37,28 @@ Test_Excel_All_Rows
     ${countRows}    Get Length    ${dicAllTestData["ชื่อลูกค้า"]}
     ${countRows}    Get Length    ${dicAllTestData["เบอร์โทร"]} 
     ${countRows}    Get Length    ${dicAllTestData["บัตรประชาชน"]}
+    # log    ${ALLTESTDATA["ประเภทรถ"]}[${0}]
     # Open Excel Document	    filename=D:${/}Premium${/}PremiumData.xlsx     doc_id=doc1
+    #เริ่มจาก 0
     # Input All Cars Details    ${dicAllTestData}    ${countRows}
     FOR    ${INDEX}    IN RANGE    0    ${countRows}    #${ROWLENGTH}
         # Set To Dictionary    ${ALLTESTDATA}    ${AllColumn[${INDEX}]}=${AllRow}
         # log    ${ALLTESTDATA["ประเภทรถ"]}[${index}]
         sleep    6s
         Click Button Name    ${menu_quotation}
-        sleep    12s
-        Select Frame    ${iframe}
-        Verify Quotation Page
-        Select Radio Car Type    ${dicAllTestData["ประเภทรถ"]}[${index}]    #รถเก๋ง
-        Select Data In Car Property    ${dicAllTestData["ประเภทการจดทะเบียน"]}[${index}]    #110 รถยนต์ส่วนบุคคล
-        Select Data In Car Brand    ${dicAllTestData["ยี่ห้อ"]}[${index}]    #HONDA (ยี่ห้อ)
-        Select Data In Car Model    ${dicAllTestData["รุ่น"]}[${index}]    #CITY (รุ่น)
-        Select Data In Car Year     ${dicAllTestData["ปีรุ่นรถ"]}[${index}]   #2018  ปีรุ่นรถ
-        Select Data In Car Sub Model    ${dicAllTestData["รุ่นย่อย"]}[${index}]    #MY17 Sedan 4dr S i-VTEC CVT FWD 1.5i (2018)
-        Input Value In Car Prefix    ${dicAllTestData["อักษรทะเบียน"]}[${index}]    #1กก
-        Input Value In Car License No    ${dicAllTestData["เลขทะเบียน"]}[${index}]    #4311
-        Select Data In Province    ${dicAllTestData["จังหวัด"]}[${index}]    #กรุงเทพมหานคร
-        Input Data In Year Of Birth    ${dicAllTestData["ปีเกิดผู้เอาประกัน"]}[${index}]    #2529
-        Select Cliam Type    ${dicAllTestData["ประเภทการซ่อม"]}[${index}]    #ซ่อมอู่
-        Click Search Button
-        sleep    18s
-        Select Insurance    ${dicAllTestData["ประเภทประกัน"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    #2+
-        Click Print Quotation
-        Input Information Insurance    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]
-        Verify Data For Quotation    ${index}    ${dicAllTestData["ชื่อบริษัท"]}[${index}]
-        # ${indexWriteExcel}    Evaluate    ${index}+1               # Check Message error
-        # ${resultmessage}    Verify Thai ID And Mobile Number    ${indexWriteExcel}
-        # Return From Keyword If    '${resultmessage}' == 'True'
-        # # Unselect Frame
-        # Get And Write All Data In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${index}
+        sleep    10s
+        Create Quotation    ${dicAllTestData}    ${index}
+        Verify Search Is Not Found    ${dicAllTestData}    ${index}
+        # Verify Data For Quotation    ${index}
     END
 
-TestCase1
-    FOR    ${ListTestData}    IN     @{AllTestData}
-        Insurance Detail    ${ListTestData}
-    END
-   
 ***Keywords***
-    #${AllTestData}    ReadAllTestData   Y:${/}Areegator New Project${/}QA${/}PrepareDate${/}Renew.xlsx    New Requirement
-    # Open Excel Document    filename=D:${\}Premium${\}PremiumData.xlsx    Data
-Input All Cars Details
-    [Arguments]    ${ALLTESTDATA}    ${ROWLENGTH}
-    FOR    ${INDEX}    IN RANGE    0    ${ROWLENGTH}
-        # Set To Dictionary    ${ALLTESTDATA}    ${AllColumn[${INDEX}]}=${AllRow}
-        # log    ${ALLTESTDATA["ประเภทรถ"]}[${index}]
-        sleep    6s
-        Click Button Name    ${menu_quotation}
-        sleep    12s
+Create Quotation
+        [Arguments]    ${dicAllTestData}    ${index}
         Select Frame    ${iframe}
         Verify Quotation Page
+        #เริ่มจาก 0
+        # ${indexWriteExcel}    Evaluate    ${index}+1
         Select Radio Car Type    ${dicAllTestData["ประเภทรถ"]}[${index}]    #รถเก๋ง
         Select Data In Car Property    ${dicAllTestData["ประเภทการจดทะเบียน"]}[${index}]    #110 รถยนต์ส่วนบุคคล
         Select Data In Car Brand    ${dicAllTestData["ยี่ห้อ"]}[${index}]    #HONDA (ยี่ห้อ)
@@ -102,25 +72,69 @@ Input All Cars Details
         Select Cliam Type    ${dicAllTestData["ประเภทการซ่อม"]}[${index}]    #ซ่อมอู่
         Click Search Button
         sleep    18s
-        Select Insurance    ${dicAllTestData["ประเภทประกัน"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    #2+
-        Click Print Quotation
-        Input Information Insurance    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]
-        Verify Data For Quotation    ${index}    ${dicAllTestData["ชื่อบริษัท"]}[${index}]
-        # ${indexWriteExcel}    Evaluate    ${index}+1               # Check Message error
-        # ${resultmessage}    Verify Thai ID And Mobile Number    ${indexWriteExcel}
-        # Return From Keyword If    '${resultmessage}' == 'True'
-        # # Unselect Frame
-        # Get And Write All Data In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${index}
-    END
-
+    
+Verify Search Is Not Found
+    [Documentation]    ตรวจสอบการ Search ข้อมูล
+    [Arguments]    ${dicAllTestData}    ${index}
+    #เอาจาก Index 0+1 = Row ใน Excel =1
+    ${indexWriteExcel}    Evaluate    ${index}+1
+    ${resultsearch}    Verify Search Insurance Datail    ${indexWriteExcel}
+    Return From Keyword If    '${resultsearch}' == 'True'
+    Select Insurance    ${dicAllTestData["ประเภทประกัน"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]    ${index}
+    Input Information Insurance    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${index}
+    # ${DataIDCard}    ${DataFirstName}    ${DataMobile}    ${DataCompanyName}    ${index}
+    # Verify Data For Quotation    ${dicAllTestData}    ${index}
 
 Verify Data For Quotation
-    [Arguments]    ${index}    ${DataCompanyName}
+    [Arguments]    ${index}
     ${indexWriteExcel}    Evaluate    ${index}+1               # Check Message error
     ${resultmessage}    Verify Thai ID And Mobile Number    ${indexWriteExcel}
     Return From Keyword If    '${resultmessage}' == 'True'
-    # Unselect Frame
-    Get And Write All Data In Quotation    ${DataCompanyName}    ${index}
+    Get And Write All Data In Quotation    ${index}    ${dicAllTestData["ชื่อบริษัท"]}[${index}]
+    # ${dicAllTestData["ชื่อบริษัท"]}[${index}]
+
+# Input All Cars Details
+#     [Arguments]    ${ALLTESTDATA}    ${ROWLENGTH}
+#     #เริ่มจาก 0
+#     FOR    ${INDEX}    IN RANGE    0    ${ROWLENGTH}
+#         # Set To Dictionary    ${ALLTESTDATA}    ${AllColumn[${INDEX}]}=${AllRow}
+#         # log    ${ALLTESTDATA["ประเภทรถ"]}[${index}]
+#         sleep    6s
+#         Click Button Name    ${menu_quotation}
+#         sleep    10s
+#         # ${indexWriteExcel}    Evaluate    ${INDEX}+1
+#         Create Quotation    ${dicAllTestData}    ${INDEX}
+#         Verify Search Is Not Found    ${dicAllTestData}    ${INDEX}
+#     END
+
+    #     sleep    6s
+    #     Click Button Name    ${menu_quotation}
+    #     sleep    12s
+    #     Select Frame    ${iframe}
+    #     Verify Quotation Page
+    #     Select Radio Car Type    ${dicAllTestData["ประเภทรถ"]}[${index}]    #รถเก๋ง
+    #     Select Data In Car Property    ${dicAllTestData["ประเภทการจดทะเบียน"]}[${index}]    #110 รถยนต์ส่วนบุคคล
+    #     Select Data In Car Brand    ${dicAllTestData["ยี่ห้อ"]}[${index}]    #HONDA (ยี่ห้อ)
+    #     Select Data In Car Model    ${dicAllTestData["รุ่น"]}[${index}]    #CITY (รุ่น)
+    #     Select Data In Car Year     ${dicAllTestData["ปีรุ่นรถ"]}[${index}]   #2018  ปีรุ่นรถ
+    #     Select Data In Car Sub Model    ${dicAllTestData["รุ่นย่อย"]}[${index}]    #MY17 Sedan 4dr S i-VTEC CVT FWD 1.5i (2018)
+    #     Input Value In Car Prefix    ${dicAllTestData["อักษรทะเบียน"]}[${index}]    #1กก
+    #     Input Value In Car License No    ${dicAllTestData["เลขทะเบียน"]}[${index}]    #4311
+    #     Select Data In Province    ${dicAllTestData["จังหวัด"]}[${index}]    #กรุงเทพมหานคร
+    #     Input Data In Year Of Birth    ${dicAllTestData["ปีเกิดผู้เอาประกัน"]}[${index}]    #2529
+    #     Select Cliam Type    ${dicAllTestData["ประเภทการซ่อม"]}[${index}]    #ซ่อมอู่
+    #     Click Search Button
+    #     sleep    18s
+    #     Select Insurance    ${dicAllTestData["ประเภทประกัน"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    #2+
+    #     Click Print Quotation
+    #     Input Information Insurance    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]
+    #     Verify Data For Quotation    ${index}    ${dicAllTestData["ชื่อบริษัท"]}[${index}]
+    #     # ${indexWriteExcel}    Evaluate    ${index}+1               # Check Message error
+    #     # ${resultmessage}    Verify Thai ID And Mobile Number    ${indexWriteExcel}
+    #     # Return From Keyword If    '${resultmessage}' == 'True'
+    #     # # Unselect Frame
+    #     # Get And Write All Data In Quotation    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${index}
+    # END
 
 
 Go To URL And Quotation Menu

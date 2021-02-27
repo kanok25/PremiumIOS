@@ -166,7 +166,7 @@ Get Value In Quotation J
 
 Get And Write All Data In Quotation
     [Documentation]    Step for get data in quotation
-    [Arguments]    ${DataCompanyName}    ${INDEX}    #${dicAllTestData["ชื่อบริษัท"]}[${index}]
+    [Arguments]    ${INDEX}    ${DataCompanyName}    #${dicAllTestData["ชื่อบริษัท"]}[${index}]
     sleep    1s
     Switch Window    MAIN
     sleep    4s
@@ -280,11 +280,6 @@ Click Search Button
     Wait Until Element Is Enabled    //button[@id="btn-searchtab1"]    15s
     Click Element    //button[@id="btn-searchtab1"]
 
-Verify Alert Warning
-    [Documentation]    After search premium then system display message error
-    Wait Until Element Is Visible    //div[@id="div-search-result"]//div[@class="alert alert-warning"]    15s
-    Element Should Contain        //div[@class="alert alert-warning"]/h1[text()="Warning!!"]    Warning!!
-
 Click Clear button
     [Documentation]    After search then clear data for search
     Wait Until Element Is Visible    //button[@id="btn-reEdittab1"]    15s
@@ -292,7 +287,7 @@ Click Clear button
 
 Select Insurance
     [Documentation]    After search data then system click tab Insurance type (ex. ประเภท1, ประเภท2)
-    [Arguments]    ${DataInsuranceType}    ${DataCompanyName}
+    [Arguments]    ${DataInsuranceType}    ${DataCompanyName}    ${DataIDCard}    ${DataFirstName}    ${DataMobile}    ${index}
     # sleep    10s
     ${InsuranceType}    Run Keyword And Return Status    Should Be Equal    ${DataInsuranceType}    1
     Run Keyword If    '${InsuranceType}' == 'True'    Click Element    ${tab_insurance_type_1}
@@ -326,9 +321,9 @@ Select Insurance
     ${ResultPremium}    Get Text    ${ElementPremium}
     Set Global Variable    ${ResultTotal}    
     Set Global Variable    ${ResultPremium}
-    # [Return]    ${ResultTotal}    ${ResultPremium}
-
-# //div[contains(text(),'ทุนประกัน')]//..//strong
+    Click Print Quotation
+    # ${indexWriteExcel}    Evaluate    ${INDEX}+1
+    # Input Information Insurance    ${DataIDCard}    ${DataFirstName}    ${DataMobile}    ${DataCompanyName}    ${index}
 
 Verify Value In Insurance Company
     [Documentation]    Mapping Insurance company name
@@ -344,7 +339,7 @@ Click Print Quotation
 
 Input Information Insurance
     [Documentation]    Input data Information
-    [Arguments]    ${DataIDCard}    ${DataFirstName}    ${DataMobile}
+    [Arguments]    ${DataIDCard}    ${DataFirstName}    ${DataMobile}    ${DataCompanyName}    ${index}
     Wait Until Element Is Visible    //div[@id="modal-print"]//h4[@class="modal-title"]    10s
     Element Should Contain    //div[@id="modal-print"]//h4[@class="modal-title"]    ข้อมูลผู้เอาประกัน
     Wait Until Element Is Visible    //input[@id="modal-input-idcard"]    5s    
@@ -356,7 +351,8 @@ Input Information Insurance
     Wait Until Element Is Visible    //button[@id="btn-print-normal"]    5s
     Click Element    //button[@id="btn-print-normal"]
     sleep    3s
-    Handle Alert    ACCEPT    10s
+    Handle Alert    ACCEPT    15s
+    Verify Data For Quotation    ${index}
     # sleep 2
     # Switch Window    MAIN
     # sleep    3s
@@ -366,11 +362,10 @@ Input Information Insurance
 
 Verify Thai ID And Mobile Number
     [Documentation]    Verify ID and Mobile number then system validate is duplicate
-    [Arguments]    ${ROWCOUNT}
+    [Arguments]    ${index}
     sleep    2s
     ${resultmessage}    Run Keyword And Return Status    Verify Error Message For ThaiID And Mobile Number
-    Run Keyword If    '${resultmessage}' == 'True'    Write Message Error    ${ROWCOUNT}    ThaiID or Mobile Number is duplicate
-    Unselect Frame
+    Run Keyword If    '${resultmessage}' == 'True'    Write Message Error Is Data Duplicate    ${index}
     [Return]     ${resultmessage}
 
 Verify Error Message For ThaiID And Mobile Number
@@ -380,15 +375,47 @@ Verify Error Message For ThaiID And Mobile Number
     # //div[@class="modal-dialog"]//h4[contains(text(),'ข้อมูลผู้เอาประกัน')]    2s
     # //button[@id="btn-cancal-normal"]
     
+Write Message Error Is Data Duplicate
+    [Arguments]    ${indexWriteExcel}
+    Click Cancel Create Quotation
+    Unselect Frame
+    Log    ${indexWriteExcel}
+    # ${index}    Evaluate    ${indexWriteExcel}+1
+    Write Message Error    ${indexWriteExcel}    ThaiID or Mobile Number is duplicate
+
+
+Verify Alert Warning
+    [Documentation]    After search premium then system display message error
+    Wait Until Element Is Visible    //div[@id="div-search-result"]//div[@class="alert alert-warning"]    15s
+    # Element Should Contain        //div[@class="alert alert-warning"]/h1[text()="Warning!!"]    Warning!!
+
+Verify Search Insurance Datail
+    [Documentation]    Verify Search Insurance Datail
+    [Arguments]    ${index}
+    # sleep    2s
+    ${resultsearch}    Run Keyword And Return Status    Verify Alert Warning
+    Run Keyword If    '${resultsearch}' == 'True'    Write Message Error Is Data Not Found    ${index}
+    [Return]     ${resultsearch}
+
+Write Message Error Is Data Not Found
+    [Arguments]    ${indexWriteExcel}
+    Unselect Frame
+    Log    ${indexWriteExcel}
+    # ${index}    Evaluate    ${indexWriteExcel}+1
+    Write Message Error    ${indexWriteExcel}    ไม่พบข้อมูลตามเงื่อนไขที่ท่านระบุ
+
 Write Message Error
     [Documentation]    Write Log Error
     [Arguments]    ${INDEX}    ${VALUE}
-    Click Cancel Create Quotation
+    # Click Cancel Create Quotation
+    # Unselect Frame
     Open Excel Document     D:${/}Premium${/}PremiumData.xlsx    Data
-    ${indexWriteExcel}    Evaluate    ${INDEX}+1
-    Write Excel By Columns Name    ผลลัพธ์    ${indexWriteExcel}    ${VALUE}
+    # ${indexWriteExcel}    Evaluate    ${index}+1
+    Log    ${INDEX}
+    Write Excel By Columns Name    ผลลัพธ์    ${INDEX}    ${VALUE}
     ExcelLibrary.Save Excel Document    filename=D:${/}Premium${/}PremiumData.xlsx
     [Teardown]    Close All Excel Documents
+    [Return]     ${INDEX}
 
 Click Cancel Create Quotation
     [Documentation]    Click "ยกเลิก" ใน Popup ข้อมูลผู้เอาประกัน
@@ -415,7 +442,8 @@ Write Excel By Columns Name
     ${AllColumn}    Read Excel Row    row_num=1    sheet_name=Data
     ${ColumnIndex}    Get Index From List    ${AllColumn}    ${COLUMNNAME}
     ${ColumnIndex}    Evaluate    ${ColumnIndex}+1    ##+1 เพราะว่า Column ใน excel เริ่มจาก 1 แต่ List เริ่มจาก 0
-    FOR    ${index}    IN RANGE    1    ${ROWCOUNT}+1
+    # FOR    ${index}    IN RANGE    1    ${ROWCOUNT}+1    #1
+    FOR    ${index}    IN    ${ROWCOUNT}    #1
         ${RowIndex}    Evaluate    ${index}+1    #+2 เพราะว่าตัด Columnแรกทิ้งป้องกันการเขียนทับ
         # Open Excel Document     D:${/}Premium${/}PremiumData.xlsx    Data
         ExcelLibrary.Write Excel Cell    row_num=${RowIndex}    col_num=${ColumnIndex}    value=${VALUE}    sheet_name=Data
@@ -436,7 +464,7 @@ Write Data In Excel
     Write Excel By Columns Name    ชีวิตบุคคลภายนอกต่อครั้ง    ${indexWriteExcel}    ${ResultB}
     Write Excel By Columns Name    ทรัพย์สินบุคคลภายนอก    ${indexWriteExcel}    ${ResultC}
     Write Excel By Columns Name    ค่าเสียหายส่วนแรก(ภายนอก)    ${indexWriteExcel}    ${ResultD}        
-    Write Excel By Columns Name    ค่าเสียหายส่วนแรก    ${indexWriteExcel}    ${ResultE}
+    Write Excel By Columns Name    รถยนต์เสียหาย    ${indexWriteExcel}    ${ResultE}
     Write Excel By Columns Name    ค่าเสียหายส่วนแรก    ${indexWriteExcel}    ${ResultF}
     Write Excel By Columns Name    รถยนต์เสียหาย / ไฟไหม้    ${indexWriteExcel}    ${ResultG}
     Write Excel By Columns Name    อุบัติเหตุส่วนบุคคล    ${indexWriteExcel}    ${ResultH}
