@@ -55,7 +55,6 @@ Replace String Text And Select Value In Dropdown List
     Click Element    ${element_value}
     # sleep    2s
     Click Element    ${ddl_element}
-    # Select All From List    ${ddl_element}    ${element_value}
 
 Replace String Text For Click
     [Documentation]    Replace string for element
@@ -196,16 +195,16 @@ Select Data In Car Brand
     [Documentation]    Select data car barnd in Dropdown list 
     [Arguments]    ${DataCarBrand}
     sleep    4s
-    CLick Element    //input[@id="txt-input-car-brandtab1"]//..//span[@data-btncombobox="1"]
-    Input Text    //input[@id="txt-input-car-brandtab1"]    ${DataCarBrand}
-    Click Element    //li[@class="ui-menu-item"]/div[1]
+    CLick Element    ${ddl_car_brand}
+    Input Text    ${txt_car_brand}    ${DataCarBrand}
+    Click Element    ${select_car_brand}
 
 Select Data In Car Model
     [Documentation]    Select data car model in Dropdown list 
     [Arguments]    ${DataCarModel}
-    Click Element    //input[@id="txt-input-car-modeltab1"]//..//span[@data-btncombobox="1"]
-    Input Text    //input[@id="txt-input-car-modeltab1"]    ${DataCarModel}
-    Click Element    //ul[2]//li[@class="ui-menu-item"]/div[1]
+    Click Element    ${ddl_car_model}
+    Input Text    ${txt_car_model}    ${DataCarModel}
+    Click Element    ${select_car_model}
 
 Select Data In Car Year
     [Documentation]    Select data car year in dropdown list (ex. 2010)
@@ -216,40 +215,40 @@ Select Data In Car Year
 Select Data In Car Sub Model
     [Documentation]    Select data car model in Dropdown list 
     [Arguments]    ${DataCarSubModel}
-    Click Element    //input[@id="txt-input-car-model-subtab1"]//..//span[@data-btncombobox="1"]
-    Input Text    //input[@id="txt-input-car-model-subtab1"]    ${DataCarSubModel}
-    Click Element    //ul[3]//li[@class="ui-menu-item"]/div[1]
+    Click Element    ${ddl_car_submodel}    
+    Input Text    ${txt_car_sub_model}    ${DataCarSubModel}
+    Click Element    ${select_car_sub_model}
 
 Input Value In Car Prefix
     [Documentation]    Input data car prefix in text box (ex. 1กก)
     [Arguments]    ${DataCarPrefix}
     ${DataCarPrefix}    Convert To String    ${DataCarPrefix}
-    Scroll Element Into View    //input[@id="input-regis-no-pretab1"]
-    Wait Until Element Is Visible    //input[@id="input-regis-no-pretab1"]    10s
-    Input Text    //input[@id="input-regis-no-pretab1"]    ${DataCarPrefix}
+    Scroll Element Into View    ${txt_car_prefix}
+    Wait Until Element Is Visible    ${txt_car_prefix}    10s
+    Input Text    ${txt_car_prefix}    ${DataCarPrefix}
     
 Input Value In Car License No
     [Documentation]    Input data car license No in text box (ex. 1234)
     [Arguments]    ${DataCarLicense}
-    Wait Until Element Is Visible    //input[@id="input-regis-no-posttab1"]    10s
-    Input Text    //input[@id="input-regis-no-posttab1"]    ${DataCarLicense}
+    Wait Until Element Is Visible    ${txt_car_license_no}    10s
+    Input Text    ${txt_car_license_no}    ${DataCarLicense}
 
 Select Data In Province
     [Documentation]    Select data car province in dropdown list (ex. กระบี่)
     [Arguments]    ${DataProvince}
-    Replace String Text And Select Value In Dropdown List    //select[@id="input-provincetab1"]    ${DataInDropdown}    ${DataProvince}
+    Replace String Text And Select Value In Dropdown List    ${ddl_car_province}    ${DataInDropdown}    ${DataProvince}
     
 Input Data In Year Of Birth
     [Documentation]    Input data year of birth (ระบุคนที่อายุต่ำที่สุด ex. 2000)
     [Arguments]    ${DataYearOfBirth}
-    Wait Until Element Is Visible    //input[@id="input-yearofbirthtab1"]    10s
-    Scroll Element Into View    //input[@id="input-yearofbirthtab1"] 
-    Run Keyword If    '${DataYearOfBirth}' != 'None'     Input Text    //input[@id="input-yearofbirthtab1"]    ${DataYearOfBirth}
+    Wait Until Element Is Visible    ${input_year_of_birth}    10s
+    Scroll Element Into View    ${input_year_of_birth} 
+    Run Keyword If    '${DataYearOfBirth}' != 'None'     Input Text    ${input_year_of_birth}    ${DataYearOfBirth}
 
 Select Data In Driver Age
     [Documentation]    Select data Driver Age in dropdown list (ex. อายุ 18-24ปี)
     [Arguments]    ${DataDriveAge}
-    Replace String Text And Select Value In Dropdown List    //select[@id="input-provincetab1"]    ${DataInDropdown}    ${DataDriveAge}
+    Replace String Text And Select Value In Dropdown List    ${ddl_car_province}     ${DataInDropdown}    ${DataDriveAge}
 
 Select Cliam Type
     [Documentation]    Select radio Cliam type (ex. ซ่อมห้าง, ซ่อม่)
@@ -265,25 +264,25 @@ Select Cliam Type
 
 Select redio In Cliam Type A
     [Documentation]    Select radio box for select Cliam type 
-    Wait Until Element Is Visible    //input[@id="input-cliam-type-Atab1"]    15s
-    Scroll Element Into View    //input[@id="input-cliam-type-Atab1"]
-    Click Element    //input[@id="input-cliam-type-Atab1"]
+    Wait Until Element Is Visible    ${radio_cliam_shop}    15s
+    Scroll Element Into View    ${radio_cliam_shop}
+    Click Element    ${radio_cliam_shop}
 
 Select redio In Cliam Type B
     [Documentation]    Select radio box for select Cliam type (ยังไม่ใช้เพราะเป็นค่า Default)
-    Wait Until Element Is Visible    //input[@id="input-cliam-type-Btab1"]    15s
-    Scroll Element Into View    //input[@id="input-cliam-type-Btab1"]
-    Click Element    //input[@id="input-cliam-type-Btab1"]
+    Wait Until Element Is Visible    ${radio_cliam_garage}    15s
+    Scroll Element Into View    ${radio_cliam_garage}
+    Click Element    ${radio_cliam_garage}
 
 Click Search Button
     [Documentation]    Click search button on Quotation page
-    Wait Until Element Is Enabled    //button[@id="btn-searchtab1"]    15s
-    Click Element    //button[@id="btn-searchtab1"]
+    Wait Until Element Is Enabled    ${btn_search_company}    15s
+    Click Element    ${btn_search_company}
 
 Click Clear button
     [Documentation]    After search then clear data for search
-    Wait Until Element Is Visible    //button[@id="btn-reEdittab1"]    15s
-    Click Element    //button[@id="btn-reEdittab1"]
+    Wait Until Element Is Visible    ${btn_edit_car_info}    15s
+    Click Element    ${btn_edit_car_info}
 
 Select Insurance
     [Documentation]    After search data then system click tab Insurance type (ex. ประเภท1, ประเภท2)
@@ -304,18 +303,18 @@ Select Insurance
     ${DataInsuranceType}    Set Variable If    '${DataInsuranceType}' == '2'    2    ${DataInsuranceType}
     ${DataInsuranceType}    Set Variable If    '${DataInsuranceType}' == '3+'    33    ${DataInsuranceType}
     ${DataInsuranceType}    Set Variable If    '${DataInsuranceType}' == '3'    3    ${DataInsuranceType}
-    ${element_value}    Replace String        //span/input[@value="v_company" and @data-id="v_value"]//..//img    v_value    ${DataInsuranceType}
+    ${element_value}    Replace String        ${box_insurance_company}    v_value    ${DataInsuranceType}
     Log    ${element_value}
     ${radio_xpath}    Replace String    ${element_value}    v_company    ${DataCompanyName}   
     Log    ${radio_xpath}
     sleep    5s
     Wait Until Element Is Visible    ${radio_xpath}    10s
     Click Element    ${radio_xpath}
-    ${DataTotal}    Replace String        //span/input[@value="v_company" and @data-id="v_value"]//../../..//div[contains(text(),'ทุนประกัน')]//..//strong    v_value    ${DataInsuranceType}
+    ${DataTotal}    Replace String    ${txt_total}    v_value    ${DataInsuranceType}
     Log    ${DataTotal}
     ${ElementTotal}    Replace String    ${DataTotal}    v_company    ${DataCompanyName}   
     ${ResultTotal}    Get Text    ${ElementTotal}
-    ${DataPremium}    Replace String        //span/input[@value="v_company" and @data-id="v_value"]//../../..//div[contains(text(),'เบี้ยประกัน')]//..//strong    v_value    ${DataInsuranceType}
+    ${DataPremium}    Replace String        ${txt_permium}    v_value    ${DataInsuranceType}
     Log    ${DataPremium}
     ${ElementPremium}    Replace String    ${DataPremium}    v_company    ${DataCompanyName}   
     ${ResultPremium}    Get Text    ${ElementPremium}
@@ -340,25 +339,20 @@ Click Print Quotation
 Input Information Insurance
     [Documentation]    Input data Information
     [Arguments]    ${DataIDCard}    ${DataFirstName}    ${DataMobile}    ${DataCompanyName}    ${index}
-    Wait Until Element Is Visible    //div[@id="modal-print"]//h4[@class="modal-title"]    10s
-    Element Should Contain    //div[@id="modal-print"]//h4[@class="modal-title"]    ข้อมูลผู้เอาประกัน
-    Wait Until Element Is Visible    //input[@id="modal-input-idcard"]    5s    
-    Input Text    //input[@id="modal-input-idcard"]    ${DataIDCard}
-    Input Text    //input[@id="modal-input-fname"]    ${DataFirstName}
+    Wait Until Element Is Visible    ${modal_customer}    10s
+    Element Should Contain    ${modal_customer}    ข้อมูลผู้เอาประกัน
+    Wait Until Element Is Visible    ${modal_thai_id}    5s    
+    Input Text    ${modal_thai_id}    ${DataIDCard}
+    Input Text    ${modal_fristname}    ${DataFirstName}
     # Input Text    //input[@id="modal-input-lname"]    ${DataLastName}
-    Input Text    //input[@id="modal-input-phone"]    ${DataMobile}
+    Input Text    ${modal_mobilephone}    ${DataMobile}
     sleep    1s
-    Wait Until Element Is Visible    //button[@id="btn-print-normal"]    5s
-    Click Element    //button[@id="btn-print-normal"]
+    Wait Until Element Is Visible    ${btn_print}    5s
+    Click Element    ${btn_print}
     sleep    3s
     Handle Alert    ACCEPT    15s
     Verify Data For Quotation    ${index}
-    # sleep 2
-    # Switch Window    MAIN
-    # sleep    3s
-    # Select Frame    ${iframe}
-    # sleep    1s
-    # sleep    2s
+
 
 Verify Thai ID And Mobile Number
     [Documentation]    Verify ID and Mobile number then system validate is duplicate
@@ -371,7 +365,7 @@ Verify Thai ID And Mobile Number
 Verify Error Message For ThaiID And Mobile Number
     [Documentation]    Click element for message error
     sleep    0.5s
-    Wait Until Element Is Enabled    //div[@class="modal-dialog"]//h4[contains(text(),'ข้อมูลผู้เอาประกัน')]    2s
+    Wait Until Element Is Enabled    ${modal_title_name}    2s
     # //div[@class="modal-dialog"]//h4[contains(text(),'ข้อมูลผู้เอาประกัน')]    2s
     # //button[@id="btn-cancal-normal"]
     
@@ -386,8 +380,7 @@ Write Message Error Is Data Duplicate
 
 Verify Alert Warning
     [Documentation]    After search premium then system display message error
-    Wait Until Element Is Visible    //div[@id="div-search-result"]//div[@class="alert alert-warning"]    15s
-    # Element Should Contain        //div[@class="alert alert-warning"]/h1[text()="Warning!!"]    Warning!!
+    Wait Until Element Is Visible    ${search_not_found}    15s
 
 Verify Search Insurance Datail
     [Documentation]    Verify Search Insurance Datail
@@ -407,8 +400,6 @@ Write Message Error Is Data Not Found
 Write Message Error
     [Documentation]    Write Log Error
     [Arguments]    ${INDEX}    ${VALUE}
-    # Click Cancel Create Quotation
-    # Unselect Frame
     Open Excel Document     D:${/}Premium${/}PremiumData.xlsx    Data
     # ${indexWriteExcel}    Evaluate    ${index}+1
     Log    ${INDEX}
@@ -420,19 +411,17 @@ Write Message Error
 Click Cancel Create Quotation
     [Documentation]    Click "ยกเลิก" ใน Popup ข้อมูลผู้เอาประกัน
     sleep    2s
-    Wait Until Element Is Visible    //button[@id="btn-cancal-normal"]    10s
-    Click Element    //button[@id="btn-cancal-normal"]
+    Wait Until Element Is Visible    ${btn_cancel_modal}    10s
+    Click Element    ${btn_cancel_modal}
 
 Go To Tracking Page
     [Documentation]    Go to "รายการติดตาม" for verify quotation Details
     # Log Dictionary    ${dicAllTestData}
-    # Set Global Variable     ${dicAllTestData}
     Open Browser Desktop Mode    ${url_ios}
     Login IOS System    ${userlogin}    ${passlogin}
     Click Button Name    //li[@id="107"]
     sleep    5s
     Click Button    //button[@id="m_203"]
-    # Mouse Over    //a[@id="m_205"]
     Click Element    //a[@id="m_205"]
     sleep    5s
 

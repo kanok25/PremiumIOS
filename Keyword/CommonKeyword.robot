@@ -1,7 +1,4 @@
 *** Settings ***
-# Library    RequestsLibrary
-# Library    ExcelLibrary
-# Library    Collections
 Library    String
 Library    BuiltIn
 Library    SeleniumLibrary
@@ -40,12 +37,6 @@ Click Element Name
     [Arguments]    ${element_name}
     Wait Until Element Is Visible   ${element_name}    ${timeout}
     Click Element    ${element_name}
-
-# Replace String Text Is Visible
-#     [Documentation]    For replace word to element
-#     [Arguments]    ${ElementPath}
-#     ${element_value}    Replace String    ${ElementPath}    v_variable    ${variable_text}
-#     Wait Until Element Is Visible    ${element_value}    ${timeout}
 
 Replace String Text Is Page Contains
     [Documentation]    For replace word to element
