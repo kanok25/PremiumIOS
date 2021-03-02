@@ -314,11 +314,11 @@ Select Insurance
     Log    ${DataTotal}
     ${ElementTotal}    Replace String    ${DataTotal}    v_company    ${DataCompanyName}   
     ${ResultTotal}    Get Text    ${ElementTotal}
-    ${DataPremium}    Replace String        ${txt_permium}    v_value    ${DataInsuranceType}
+    ${DataPremium}    Replace String    ${txt_permium}    v_value    ${DataInsuranceType}
     Log    ${DataPremium}
     ${ElementPremium}    Replace String    ${DataPremium}    v_company    ${DataCompanyName}   
     ${ResultPremium}    Get Text    ${ElementPremium}
-    Set Global Variable    ${ResultTotal}    
+    Set Global Variable    ${ResultTotal}
     Set Global Variable    ${ResultPremium}
     Click Print Quotation
     # ${indexWriteExcel}    Evaluate    ${INDEX}+1
@@ -338,9 +338,10 @@ Click Print Quotation
 
 Input Information Insurance
     [Documentation]    Input data Information
-    [Arguments]    ${DataIDCard}    ${DataFirstName}    ${DataMobile}    ${DataCompanyName}    ${index}
+    [Arguments]    ${DataIDCard}    ${DataFirstName}    ${DataMobile}    ${DataCompanyName}    ${DataRegisterType}    ${index}
     Wait Until Element Is Visible    ${modal_customer}    10s
     Element Should Contain    ${modal_customer}    ข้อมูลผู้เอาประกัน
+    Select Radio Register Type    ${DataRegisterType}
     Wait Until Element Is Visible    ${modal_thai_id}    5s    
     Input Text    ${modal_thai_id}    ${DataIDCard}
     Input Text    ${modal_fristname}    ${DataFirstName}
@@ -466,4 +467,19 @@ Write Data In Excel
 Click Close Modal
     [Documentation]    CLick close button in modal quotetaion detail 
     Wait Until Element Is Visible    ${btn_quote_close_modal}    10s
-    CLick Element    ${btn_quote_close_modal}
+    Click Element    ${btn_quote_close_modal}
+
+Select Radio Register Type
+    [Documentation]    Select radio register type
+    [Arguments]    ${DataRegisterType}
+    Log     ${DataRegisterType}
+    ${DataRegisterType}    Convert To String    ${DataRegisterType}
+    # Wait Until Element Is Visible      //input[@id="modal-input-customerTypeCode_P"]    ${timeout}
+    ${RegisType}=    Create List    นิติบุคคล
+    ${ResultType}    Run Keyword And Return Status    Should Contain Any    ${DataRegisterType}    @{RegisType}
+    Run Keyword If    '${ResultType}' == 'True'    Select Register 
+
+Select Register 
+    [Documentation]    Select register type
+    sleep    1s
+    Click Element    ${radio_register_com}

@@ -70,3 +70,4 @@ ${modal_title_name}    //div[@class="modal-dialog"]//h4[contains(text(),'ข้�
 ${search_not_found}    //div[@id="div-search-result"]//div[@class="alert alert-warning"]
 ${btn_print}     //button[@id="btn-print-normal"]
 ${btn_cancel_modal}    //button[@id="btn-cancal-normal"]
+${radio_register_com}    //input[@id="modal-input-customerTypeCode_C"]

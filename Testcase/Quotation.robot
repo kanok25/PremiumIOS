@@ -9,7 +9,7 @@ Resource    ../Keyword/LoginKeyword.robot
 Resource    ../Keyword/QuotationKeyword.robot
 Resource    ../Resource/init.robot
 Suite Setup       Go To URL And Quotation Menu
-Suite Teardown      Close All Browsers
+# Suite Teardown      Close All Browsers
 ***Variables***
 
 *** test case ***
@@ -86,7 +86,7 @@ Verify Search Is Not Found
     ${resultsearch}    Verify Search Insurance Datail    ${indexWriteExcel}
     Return From Keyword If    '${resultsearch}' == 'True'
     Select Insurance    ${dicAllTestData["ประเภทประกัน"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]    ${index}
-    Input Information Insurance    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${index}
+    Input Information Insurance    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${dicAllTestData["ประเภทจดทะเบียน"]}[${index}]    ${index}
     # ${DataIDCard}    ${DataFirstName}    ${DataMobile}    ${DataCompanyName}    ${index}
     # Verify Data For Quotation    ${dicAllTestData}    ${index}
 
