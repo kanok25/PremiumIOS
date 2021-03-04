@@ -13,7 +13,7 @@ ${timeout}        10s
 Verify Quotation Page
     [Documentation]    Verify quotation page
     [Arguments]
-    Wait Until Element Is Visible    //*[contains(text(),'ข้อมูลรถลูกค้า')]    60s
+    Wait Until Element Is Visible    ${lbl_mainpage_quotation}    60s
 
 Replace String Text Is Visible
     [Documentation]    Replace string text to element
@@ -26,19 +26,15 @@ Select Radio Car Type
     [Arguments]    ${DataCarType}
     Log     ${DataCarType}
     ${DataCarType}    Convert To String    ${DataCarType}
-    Wait Until Element Is Visible      //div[@id="div_Quote_S"]    ${timeout}
+    Wait Until Element Is Visible      ${radio_car_type_s}    ${timeout}
     ${CarType}=    Create List    รถกระบะ    รถตู้ส่วนบุคคล
     ${ResultCar}    Run Keyword And Return Status    Should Contain Any    ${DataCarType}    @{CarType}
-    Run Keyword If    '${ResultCar}' == 'True' and '${DataCarType}' == 'รถกระบะ'    Click element    //div[@id="div_Quote_P"]//input
-    Run Keyword If    '${ResultCar}' == 'True' and '${DataCarType}' == 'รถตู้ส่วนบุคคล'    Click element    //div[@id="div_Quote_V"]//input
-    # Run Keyword If    '${DataCarType}' == 'รถเก๋ง'     Click element    //div[@id="div_Quote_S"]//input
+    Run Keyword If    '${ResultCar}' == 'True' and '${DataCarType}' == 'รถกระบะ'    Click element    ${radio_car_type_p}
+    Run Keyword If    '${ResultCar}' == 'True' and '${DataCarType}' == 'รถตู้ส่วนบุคคล'    Click element    ${radio_car_type_v}
 
 Select Data In Car Property
     [Documentation]    Select data car property in dropdown list
     [Arguments]    ${DataCarType}
-    # ${GroupPremium}    Create List    110 รถยนต์ส่วนบุคคล    120 รถยนต์ใช้เพื่อการพาณิชย์    320 เพื่อการพาณิชย์    210 รถยนต์ส่วนบุคคล 
-    # ${status}    Run Keyword And Return Status    Should Contain Any    ${DataCarType}    @{GroupPremium}
-    # Run Keyword if    '${status}' == 'True'    Replace String Text And Select Value In Dropdown List    ${ddl_car_register}    ${DataInDropdown}    ${DataCarType}
     Run Keyword if    '${DataCarType}' == '110 รถยนต์ส่วนบุคคล'    Replace String Text And Select Value In Dropdown List    ${ddl_car_register}    ${DataInDropdown}    ${DataCarType}
     Run Keyword if    '${DataCarType}' == '120 รถยนต์ใช้เพื่อการพาณิชย์'    Replace String Text And Select Value In Dropdown List    ${ddl_car_register}    ${DataInDropdown}    ${DataCarType}
     Run Keyword if    '${DataCarType}' == '320 เพื่อการพาณิชย์'    Replace String Text And Select Value In Dropdown List    ${ddl_car_register}    ${DataInDropdown}    ${DataCarType}

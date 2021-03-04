@@ -71,3 +71,7 @@ ${search_not_found}    //div[@id="div-search-result"]//div[@class="alert alert-w
 ${btn_print}     //button[@id="btn-print-normal"]
 ${btn_cancel_modal}    //button[@id="btn-cancal-normal"]
 ${radio_register_com}    //input[@id="modal-input-customerTypeCode_C"]
+${lbl_mainpage_quotation}    //*[contains(text(),'ข้อมูลรถลูกค้า')]
+${radio_car_type_s}    //div[@id="div_Quote_S"]
+${radio_car_type_p}    //div[@id="div_Quote_P"]//input
+${radio_car_type_v}    //div[@id="div_Quote_V"]//input
