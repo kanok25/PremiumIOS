@@ -479,3 +479,31 @@ Select Register
     [Documentation]    Select register type
     sleep    1s
     Click Element    ${radio_register_com}
+
+Go To URL And Quotation Menu
+    ${dicAllTestData}    Read All Excel By Columns Name    D:${/}Premium${/}PremiumData.xlsx    ${sheetdata}
+    Log Dictionary    ${dicAllTestData}
+    Set Global Variable     ${dicAllTestData}
+    Open Browser Desktop Mode    ${url_ios}
+    Login IOS System    ${userlogin}    ${passlogin}
+    Click Button Name    ${menu_ios}
+
+    
+Verify Search Is Not Found
+    [Documentation]    ตรวจสอบการ Search ข้อมูล
+    [Arguments]    ${dicAllTestData}    ${index}
+    #เอาจาก Index 0+1 = Row ใน Excel =1
+    ${indexWriteExcel}    Evaluate    ${index}+1
+    ${resultsearch}    Verify Search Insurance Datail    ${indexWriteExcel}
+    Return From Keyword If    '${resultsearch}' == 'True'
+    Select Insurance    ${dicAllTestData["ประเภทประกัน"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]    ${index}
+    Input Information Insurance    ${dicAllTestData["บัตรประชาชน"]}[${index}]    ${dicAllTestData["ชื่อลูกค้า"]}[${index}]    ${dicAllTestData["เบอร์โทร"]}[${index}]    ${dicAllTestData["ชื่อบริษัท"]}[${index}]    ${dicAllTestData["ประเภทจดทะเบียน"]}[${index}]    ${index}
+    # ${DataIDCard}    ${DataFirstName}    ${DataMobile}    ${DataCompanyName}    ${index}
+    # Verify Data For Quotation    ${dicAllTestData}    ${index}
+
+Verify Data For Quotation
+    [Arguments]    ${index}
+    ${indexWriteExcel}    Evaluate    ${index}+1               # Check Message error
+    ${resultmessage}    Verify Thai ID And Mobile Number    ${indexWriteExcel}
+    Return From Keyword If    '${resultmessage}' == 'True'
+    Get And Write All Data In Quotation    ${index}    ${dicAllTestData["ชื่อบริษัท"]}[${index}]
