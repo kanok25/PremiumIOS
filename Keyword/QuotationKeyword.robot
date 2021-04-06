@@ -208,12 +208,41 @@ Select Data In Car Year
     ${DataCarYear}    Convert To String    ${DataCarYear}
     Replace String Text And Select Value In Dropdown List    ${ddl_car_register_year}    ${DataInDropdown}    ${DataCarYear}
 
+# Select Data In Car Sub Model
+#     [Documentation]    Select data car model in Dropdown list 
+#     [Arguments]    ${DataCarSubModel}
+#     # Click Element    ${ddl_car_submodel}    
+#     # Input Text    ${txt_car_sub_model}    ${DataCarSubModel}
+#     # Click Element    ${select_car_sub_model}
+
 Select Data In Car Sub Model
-    [Documentation]    Select data car model in Dropdown list 
-    [Arguments]    ${DataCarSubModel}
-    Click Element    ${ddl_car_submodel}    
-    Input Text    ${txt_car_sub_model}    ${DataCarSubModel}
-    Click Element    ${select_car_sub_model}
+    [Arguments]    ${DataCarYear}
+    # Click Element    ${ddl_car_submodel}
+    # Input Text    ${txt_car_sub_model}    ${DataCarYear}   #Input year
+    Wait Until Page Contains Element    ${ddl_car_submodel}    30s
+    # Click Element    ${ddl_car_submodel}
+    Input Text    ${txt_car_sub_model}    ${DataCarYear}   #Input year
+    sleep    10s
+    # Scroll Element Into View    //div[@id="input-car-model-subtab1"]
+    # Mouse Over     //div[@id="input-car-model-subtab1"]
+    # sleep    10s
+    @{AllCarModel}    Get List Items    css=.ui-id
+    # //select[@id="input-car-model-subtab1"]
+    # ui-id
+    # Append To List
+    # Log list    @{AllCarModel}
+    # ${remove_car_year}=    Remove From List    ${AllCarYear}    0
+    FOR    ${CarModel}    IN    @{AllCarModel}
+        # Wait Until Element Is Visible    //ul[@class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"][3]/li/div    20s
+        # Click Element    ${ddl_car_model}
+        sleep    3s
+        Select From List By Label    //ul[@class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"][3]/li/div    ${CarModel}
+        # Select Car Year    ${CarBrand}    ${CarModel}
+        # Click Element    //ul[@class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"][3]
+        # Mouse Over    //ul[@class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"][3]/li 
+        # Select From List By Label    ${ddl_car_year}    ${CarYear}
+        sleep    1
+    End
 
 Input Value In Car Prefix
     [Documentation]    Input data car prefix in text box (ex. 1กก)
@@ -329,8 +358,10 @@ Verify Value In Insurance Company
 Click Print Quotation
     [Documentation]    Print QT Number
     Wait Until Element Is Visible    //button[@id="btn-print"]    10s
-    Scroll Element Into View    //button[@id="btn-print"]
+    sleep    5s
+    # Scroll Element Into View    //button[@id="btn-print"]
     CLick button    //button[@id="btn-print"]
+    sleep   5s
 
 Input Information Insurance
     [Documentation]    Input data Information
